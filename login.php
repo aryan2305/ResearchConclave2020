@@ -105,8 +105,7 @@ $username="";
    </head>
    <body class="text-center">
 
-     <form class="form-signin" action="Home.php"  method="POST">
-   <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+     <form class="form-signin" action="login.php"  method="POST">
    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
    <label for="inputEmail" class="sr-only">Email address</label>
    <input  id="inputEmail"  name="inputEmail" class="form-control" placeholder="Email address" required autofocus>
