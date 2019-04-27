@@ -55,7 +55,7 @@
     <meta name="keywords" content="Colorlib Templates">
 
     <!-- Title Page-->
-    <title>Au Register Forms by Colorlib</title>
+    <title>Registration</title>
 
     <!-- Icons font CSS-->
     <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
@@ -67,17 +67,16 @@
     <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
-    <link href="css1/main.css" rel="stylesheet" media="all">
+    <link href="css/main.css" rel="stylesheet" media="all">
 </head>
 
 <body>
-	<form class="form-signin" action="registration.php"  method="POST">
 	    <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
 	        <div class="wrapper wrapper--w680">
 	            <div class="card card-4">
 	                <div class="card-body">
 	                    <h2 class="title">Registration Form</h2>
-	                    <form method="POST">
+	                    <form method="POST" action="registration.php">
 	                        <div class="row row-space">
 	                            <div class="col-2">
 	                                <div class="input-group">
@@ -186,13 +185,12 @@
 	            </div>
 	        </div>
 	    </div>
-	</form>
 	    <!-- Jquery JS-->
 	    <script src="vendor/jquery/jquery.min.js"></script>
 	    <!-- Vendor JS-->
 	    <script src="vendor/select2/select2.min.js"></script>
 	    <!-- Main JS-->
-	    <script src="js1/global.js"></script>
+	    <script src="js/global.js"></script>
 
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 
