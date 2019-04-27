@@ -10,7 +10,6 @@ $username="";
     $host="localhost";
     $db="research_conclave20";
     $dsn= "mysql:host=$host;dbname=$db";
-    $conn=new mysqli();
     $conn=new mysqli($host,"root","",$db);
     if($conn->connect_error){
       die("Connection failed: " . $conn->connect_error);
@@ -36,32 +35,7 @@ $username="";
 
 
   }
-  /*  try{
-      $conn = new PDO($dsn, "root", "");
-      try{
-        $id=$conn->exec($query);
-        echo $id;
-      }
-      catch(Exception $e){
-        echo "error in fetching ".$e->getMessage();
-      }
-
-
-
-
-    }
-    catch(PDOException $e){
-        echo "error in login ".$e->getMessage();
-    }*/
-
-
-  //  echo "hey, $username" ;
-
-
-
-
-
-
+  
  ?>
 
 
@@ -76,7 +50,7 @@ $username="";
      <meta name="generator" content="Jekyll v3.8.5">
      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-     <title>IITG DATA SCIENCE</title>
+     <title>IITG Research Conclave</title>
 
      <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/sign-in/">
 
@@ -103,7 +77,7 @@ $username="";
      <!-- Custom styles for this template -->
      <link href="https://getbootstrap.com/docs/4.3/examples/sign-in/signin.css" rel="stylesheet">
    </head>
-   <body class="text-center">
+   <body class="text-center">   
 
      <form class="form-signin" action="login.php"  method="POST">
    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
