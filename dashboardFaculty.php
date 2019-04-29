@@ -1,3 +1,46 @@
+<?php
+  if($_SERVER["REQUEST_METHOD"]=="POST"){
+    $noticetitle=$_POST["noticeTitle"]; 
+    $Description=$_POST["description"];
+    $postingdate=date("Y/m/d"); 
+    $event=$_POST["eventType"];
+    $eventtype=0;
+    $postedBy = "FacultyConvener";
+    if($event=="oral")
+    {
+      $eventtype=1;
+    }
+    else
+    {
+      $eventtype=0;
+    }
+    $host="localhost";
+    $db="research_conclave20";
+    $dsn= "mysql:host=$host;dbname=$db";
+    $conn=new mysqli($host,"root","",$db);
+    if($conn->connect_error){
+      die("Connection failed: " . $conn->connect_error);
+      echo "failed";
+    }
+  //  echo $username."  ".$pwd;
+  //  echo $conn;
+    $query="INSERT INTO Notice (EventType,NoticeTitle,Description,PostingDate,PostedBy) VALUES ('$eventtype','$noticetitle','$Description','$postingdate','$postedBy')";
+
+
+
+    try{
+
+      $result=$conn->query($query);
+    }
+    catch(Exception $e){
+      echo "error is".$e;
+    }
+
+    $conn->close();
+
+
+  }
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -6,14 +49,67 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v3.8.5">
-    <title>Dashboard Template · Bootstrap</title>
+    <title>Dashboard Faculty</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/dashboard/">
 
     <!-- Bootstrap core CSS -->
 <link href="https://getbootstrap.com/docs/4.3/examples/dashboard/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+    <style>
+    input[type=text], select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
 
+    input[id=desText]{
+      width: 100%;
+      height: 200px;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input[type=submit] {
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    input[type=date] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input[type=submit]:hover {
+      background-color: #45a049;
+    }
+
+    div {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+    </style>
 
     <style>
       .bd-placeholder-img {
@@ -37,6 +133,7 @@
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Research Conclave</a>
+  
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
       <a class="nav-link" href="#">Sign out</a>
@@ -60,6 +157,7 @@
             <a class="nav-link" href="#">
               <span data-feather="layers"></span>
               Submit Abstract
+
             </a>
           </li>
         </ul>
@@ -67,9 +165,9 @@
        
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="facultyApproveReviewer.php">
               <span data-feather="file-text"></span>
-              View Submitted Abstracts
+              Approve Reviewer
             </a>
           </li>
           
@@ -81,7 +179,23 @@
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Reviewed Application</h1>        
       </div>
+      <h2>NOTICE</h2>
 
+      <div>
+        <form action="dashboardFaculty.php" method="POST">
+          <label for="titleText">Notice title</label>
+          <input type="text" id="titleText" name="noticeTitle" placeholder="title..">
+
+          <label for="desText">Description</label>
+          <input type="text" id="desText" name="description" placeholder="description..">
+          <label for="eType">Event Type</label>
+          <select id="eType" name="eventType">
+            <option value="oral">Oral</option>
+            <option value="poster">Poster</option>
+          </select>
+          <input type="submit" value="Submit">
+        </form>
+      </div>
 
       
     </main>

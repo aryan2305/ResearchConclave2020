@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -14,7 +15,32 @@
 <link href="https://getbootstrap.com/docs/4.3/examples/dashboard/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-
+    <style type="text/css">
+    table.hovertable {
+      font-family: verdana,arial,sans-serif;
+      font-size:11px;
+      color:#333333;
+      border-width: 1px;
+      border-color: #999999;
+      border-collapse: collapse;
+    }
+    table.hovertable th {
+      background-color:#c3dde0;
+      border-width: 1px;
+      padding: 8px;
+      border-style: solid;
+      border-color: #a9c6c9;
+    }
+    table.hovertable tr {
+      background-color:#d4e3e5;
+    }
+    table.hovertable td {
+      border-width: 1px;
+      padding: 8px;
+      border-style: solid;
+      border-color: #a9c6c9;
+    }
+    </style>
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -77,13 +103,74 @@
       </div>
     </nav>
 
+     
+
+   
+
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Reviewed Application</h1>        
+        <h1 class="h2">Reviewed Application</h1>
+
       </div>
+      <?php
+        $conn=mysqli_connect("localhost","root","","research_conclave20");
+        if ($conn-> connect_error){
+          die("connection failed".$conn->connect_error);
+          echo "connection failed!!";
+        }
+        //todo emailid below is hardcoded
+        $query = mysqli_query($conn,"SELECT * FROM Oral WHERE Email_Id='aryanpranshu@gmail.com' ");
+        $query1 = mysqli_query($conn,"SELECT * FROM Poster WHERE Email_Id='aryanpranshu@gmail.com' ");
+      ?>  
+      <div class="table-responsive">
+      <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+              <th>Oral ID</th>
+              <th>Title</th>
+              <th>Date of Submission</th>
+              <th>Is Under Review</th>
+            </tr>
+          </thead>
+        <tbody>
+            <?php
+               while ($row = mysqli_fetch_array($query)) {
+                   echo "<tr>";
+                   echo "<td>".$row["OralId"]."</td>";
+                   echo "<td>".$row["Title"]."</td>";
+                   echo "<td>".$row["DateOfSubmission"]."</td>";
+                   echo "<td>".$row["IsUnderReview"]."</td>";
+                   echo "</tr>";
+               }
 
+            ?>
+          </tbody>
+      </table>
+         </div>
+      <div class="table-responsive">
+      <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+              <th>Poster ID</th>
+              <th>Title</th>
+              <th>Date of Submission</th>
+            </tr>
+          </thead>
+        <tbody>
+            <?php
+               while ($row = mysqli_fetch_array($query1)) {
+                   echo "<tr>";
+                   echo "<td>".$row["PosterId"]."</td>";
+                   echo "<td>".$row["Title"]."</td>";
+                   echo "<td>".$row["DateOfSubmission"]."</td>";
+                   echo "<td>".$row["IsUnderReview"]."</td>";
+                   echo "</tr>";
+               }
 
-      
+            ?>
+          </tbody>
+      </table>
+         </div>
     </main>
   </div>
 </div>

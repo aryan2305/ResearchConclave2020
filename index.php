@@ -223,12 +223,43 @@
 					<h3 class="title"><span>Event</span> <span style="color: #dd0a37;">Updates</span></h3>
 				</div>
 				<!-- /section title -->
-
+				<?php
+						$conn=mysqli_connect("localhost","root","","research_conclave20");
+						if($conn->connect_error)
+						{
+							die("connection failed".$conn->connect_error);
+							echo "Connection Failed!!";
+						}
+						$query=mysqli_query($conn,"select * from Notice");
+				?>
 				<div class="col-md-8 col-md-offset-2">
 
 					<div class="events-wrapper">
 						<!-- event -->
-						<div class="event">
+						<?php
+							while ($row = mysqli_fetch_array($query)) {
+								echo"<div class=event>
+									<div class=event-day>
+									<div>
+									<span class=year>"
+									.$row["PostingDate"].
+									"</span>
+								</div>
+							</div>";
+							echo"<div class=event-content><h3 class=event-title>"
+								.$row["NoticeTitle"].
+								"</h3><p>"
+								.$row["Description"].
+								"</p><p> By<a href='#'>"
+								.$row["PostedBy"].
+								"</a></p>
+							</div>";
+						
+							}
+						?>
+					</div>
+
+						<!-- <div class="event">
 							<div class="event-day">
 								<div>
 									<span class="day">15</span>
@@ -240,13 +271,8 @@
 								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 								<p>By <a href="#">John Doe</a></p>
 							</div>
-						</div>
-						<!-- /event -->
-
-						
-
-						<!-- event -->
-						<div class="event">
+						</div> -->
+						<!-- <div class="event">
 							<div class="event-day">
 								<div>
 									<span class="day">16</span>
@@ -258,14 +284,8 @@
 								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 								<p>By <a href="#">John Doe</a></p>
 							</div>
-						</div>
-						<!-- /event -->
-
-						
+						</div> -->
 					</div>
-
-					
-
 				</div>
 			</div>
 			<!-- /row -->

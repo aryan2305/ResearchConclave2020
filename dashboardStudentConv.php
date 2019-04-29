@@ -1,3 +1,12 @@
+<?php
+  session_start();
+  $username = $_SESSION["username"];
+?>
+
+
+
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -6,7 +15,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v3.8.5">
-    <title>Dashboard Template · Bootstrap</title>
+    <title>Dashboard Student Convener</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/dashboard/">
 
@@ -39,7 +48,7 @@
   <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Research Conclave</a>
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
-      <a class="nav-link" href="#">Sign out</a>
+      <a class="nav-link" href="index.html">Sign out</a>
     </li>
   </ul>
 </nav>
@@ -50,16 +59,16 @@
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" href="#">
+            <a class="nav-link active" href="viewAbstract.php" target="main">
               <span data-feather="home"></span>
-              Reviewed Application <span class="sr-only">(current)</span>
+              Unassigned Abstract <span class="sr-only">(current)</span>
             </a>
           </li>
          
           <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="layers"></span>
-              Submit Abstract
+              Approved Abstract
             </a>
           </li>
         </ul>
@@ -69,7 +78,7 @@
           <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="file-text"></span>
-              View Submitted Abstracts
+              Add Notice
             </a>
           </li>
           

@@ -6,8 +6,11 @@
     $tableName="";
     $todaysDate = date("Y/m/d");
     $IsUnderReview = 0;
-    $name       = $_FILES['inputFile']['name'];  
-    $data = file_get_contents($_FILES['inputFile']['tmp_name']);
+    $name       = $_FILES['inputFile']['name']; 
+    $file = addslashes($_FILES['inputFile']['tmp_name']);
+    $file = file_get_contents($file);
+    $file = base64_encode($file);
+    $data = $file; 
 
     if ($EventType == "Poster Presentation" ) {
       $tableName = "Poster";
