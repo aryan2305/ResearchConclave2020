@@ -153,7 +153,7 @@ if (isset($_POST['oraldisapprove']))
   <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Research Conclave</a>
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
-      <a class="nav-link" href="#">Sign out</a>
+      <a class="nav-link" href="index.php">Sign out</a>
     </li>
   </ul>
 </nav>
@@ -163,27 +163,27 @@ if (isset($_POST['oraldisapprove']))
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="home"></span>
-              Reviewed Application <span class="sr-only">(current)</span>
-            </a>
-          </li>
-         
-          <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="dashboardFaculty.php">
               <span data-feather="layers"></span>
-              Submit Abstract
-
+              Add Notice
             </a>
           </li>
-        </ul>
-
-       
-        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link" href="addReviewer.php">
+              <span data-feather="layers"></span>
+              Add Reviewer
+            </a>
+          </li>          
           <li class="nav-item">
             <a class="nav-link active" href="facultyApproveReviewer.php">
               <span data-feather="file-text"></span>
-              Approve Reviewer
+              Approve Reviewers
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="reportFaculty.php">
+              <span data-feather="file-text"></span>
+              See all Reports
             </a>
           </li>
           
@@ -196,7 +196,6 @@ if (isset($_POST['oraldisapprove']))
         <h1 class="h2">Abstract to Approve</h1>        
       </div>
 
-      <div>
       <h2>Poster Presentations</h2>
 
         <?php
@@ -211,24 +210,84 @@ if (isset($_POST['oraldisapprove']))
             {
 
                 $posteridarray[$posterindex]=$row['PosterId'];
+                $reviewer1 = $row['Reviewer_1_Id'];
+                $reviewer2 = $row['Reviewer_2_Id'];
+                $reviewer1query = mysqli_query($conn,"select * from Reviewer where EmailId = '$reviewer1'");
+                $reviewer2query = mysqli_query($conn,"select * from Reviewer where EmailId = '$reviewer2'");
 
-//                echo $posteridarray[$posterindex];
+                $NameR1 = "";
+                $DesignationR1 = "";
+                $DepartmentR1 = "";
+                $InstitueR1 = "";
+                $AddressR1 = "";
+                $CityR1 = "";
+                $StateR1 = "";
+                $PinCodeR1 = "";
+
+                while($r1 = mysqli_fetch_array($reviewer1query))
+                {
+                    $NameR1 = $r1['FirstName']." ".$r1['MiddleName']." ".$r1['LastName'];
+                    $DesignationR1 = $r1['Designation'];
+                    $DepartmentR1 = $r1['Department'];
+                    $InstitueR1 = $r1['Institute'];
+                    $AddressR1 = $r1['Address'];
+                    $CityR1 = $r1['City'];
+                    $StateR1 = $r1['State'];
+                    $PinCodeR1 = $r1['PinCode'];
+                }
+
+                $NameR2 = "";
+                $DesignationR2 = "";
+                $DepartmentR2 = "";
+                $InstitueR2 = "";
+                $AddressR2 = "";
+                $CityR2 = "";
+                $StateR2 = "";
+                $PinCodeR2 = "";
+
+                while($r2 = mysqli_fetch_array($reviewer2query))
+                {
+                    $NameR2 = $r2['FirstName']." ".$r2['MiddleName']." ".$r2['LastName'];
+                    $DesignationR2 = $r2['Designation'];
+                    $DepartmentR2 = $r2['Department'];
+                    $InstitueR2 = $r2['Institute'];
+                    $AddressR2 = $r2['Address'];
+                    $CityR2 = $r2['City'];
+                    $StateR2 = $r2['State'];
+                    $PinCodeR2 = $r2['PinCode'];
+                }
+
                 echo '<div class="card mb-5">
-                    <h5 class="card-header">';
+                    <div class="card-header"><h4>';
                 echo $row['PosterId']." : ".$row['FirstName']." ".$row['MiddleName']." ".$row['LastName'];
-                echo '</h5><div class="card-body"><h5 class="card-title">';
+                echo '</h4></div><div class="card-body"><h5 class="card-title">';
                 echo $row['Title'];
                 echo '</h5>';
                 echo '<p class="card-text">';
                 echo $row['Description'];
-                echo '</div><h5 class="card-header"> Reviewer1:';
-                echo $row['Reviewer_1_Id'];
-                echo '<br>Reviewer2:';
-                echo $row['Reviewer_2_Id'];
-                echo '</h5>';
+                echo '</p><h6 class="card-title"> Reviewer1:</h6>';
+                echo '<p class="card-text">';
+                echo $NameR1.'<br>';
+                echo $DesignationR1.'<br>';
+                echo $DepartmentR1.',';
+                echo $InstitueR1.'<br>';
+                echo $AddressR1.', '.$CityR1.'<br>';
+                echo $StateR1.'-'.$PinCodeR1.'<br>';
+                echo 'email : '.$row['Reviewer_1_Id'];
+                echo '</p>';
+                echo '<h6 class="card-title"> Reviewer2:</h6>';
+                echo '<p class="card-text">';
+                echo $NameR2.'<br>';
+                echo $DesignationR2.'<br>';
+                echo $DepartmentR2.',';
+                echo $InstitueR2.'<br>';
+                echo $AddressR2.', '.$CityR2.'<br>';
+                echo $StateR2.'-'.$PinCodeR2.'<br>';
+                echo 'email : '.$row['Reviewer_2_Id'];
+                echo '</p>';
                 echo '<form method="post"><textarea type="text" name="comment" placeholder="comment"></textarea>
                         <button class="btn btn-danger" type="submit" name="posterdisapprove" value="';echo $posteridarray[$posterindex]; echo '">Disapprove</button>
-                        <button class="btn btn-primary" type="submit"  name="posterapprove" value="';echo $posteridarray[$posterindex]; echo '">Approve</button></form></div>';
+                        <button class="btn btn-primary" type="submit"  name="posterapprove" value="';echo $posteridarray[$posterindex]; echo '">Approve</button></form></div></div>';
 //                echo '</p><a href="#" class="btn btn-primary">File</a>
 //                        </div>
 //                    </div>';
@@ -243,34 +302,92 @@ if (isset($_POST['oraldisapprove']))
             while($row=mysqli_fetch_assoc($oralquery))
             {
                 $oralidarray[$oralindex]=$row['OralId'];
+                $reviewer1 = $row['Reviewer_1_Id'];
+                $reviewer2 = $row['Reviewer_2_Id'];
+                $reviewer1query = mysqli_query($conn,"select * from Reviewer where EmailId = '$reviewer1'");
+                $reviewer2query = mysqli_query($conn,"select * from Reviewer where EmailId = '$reviewer2'");
+
+                $NameR1 = "";
+                $DesignationR1 = "";
+                $DepartmentR1 = "";
+                $InstitueR1 = "";
+                $AddressR1 = "";
+                $CityR1 = "";
+                $StateR1 = "";
+                $PinCodeR1 = "";
+
+                while($r1 = mysqli_fetch_array($reviewer1query))
+                {
+                    $NameR1 = $r1['FirstName']." ".$r1['MiddleName']." ".$r1['LastName'];
+                    $DesignationR1 = $r1['Designation'];
+                    $DepartmentR1 = $r1['Department'];
+                    $InstitueR1 = $r1['Institute'];
+                    $AddressR1 = $r1['Address'];
+                    $CityR1 = $r1['City'];
+                    $StateR1 = $r1['State'];
+                    $PinCodeR1 = $r1['PinCode'];
+                }
+
+                $NameR2 = "";
+                $DesignationR2 = "";
+                $DepartmentR2 = "";
+                $InstitueR2 = "";
+                $AddressR2 = "";
+                $CityR2 = "";
+                $StateR2 = "";
+                $PinCodeR2 = "";
+
+                while($r2 = mysqli_fetch_array($reviewer2query))
+                {
+                    $NameR2 = $r2['FirstName']." ".$r2['MiddleName']." ".$r2['LastName'];
+                    $DesignationR2 = $r2['Designation'];
+                    $DepartmentR2 = $r2['Department'];
+                    $InstitueR2 = $r2['Institute'];
+                    $AddressR2 = $r2['Address'];
+                    $CityR2 = $r2['City'];
+                    $StateR2 = $r2['State'];
+                    $PinCodeR2 = $r2['PinCode'];
+                }
 
                 echo '<div class="card mb-5">
-                    <h5 class="card-header">';
+                    <div class="card-header"><h4>';
                 echo $row['OralId']." : ".$row['FirstName']." ".$row['MiddleName']." ".$row['LastName'];
-                echo '</h5><div class="card-body"><h5 class="card-title">';
+                echo '</h4></div><div class="card-body"><h5 class="card-title">';
                 echo $row['Title'];
                 echo '</h5>';
                 echo '<p class="card-text">';
                 echo $row['Description'];
-                echo '</div><h5 class="card-header"> Reviewer1:';
-                echo $row['Reviewer_1_Id'];
-                echo '<br>Reviewer2:';
-                echo $row['Reviewer_2_Id'];
-                echo '</h5>';
+                echo '</p><h6 class="card-title"> Reviewer1:</h6>';
+                echo '<p class="card-text">';
+                echo $NameR1.'<br>';
+                echo $DesignationR1.'<br>';
+                echo $DepartmentR1.',';
+                echo $InstitueR1.'<br>';
+                echo $AddressR1.', '.$CityR1.'<br>';
+                echo $StateR1.'-'.$PinCodeR1.'<br>';
+                echo 'email : '.$row['Reviewer_1_Id'];
+                echo '</p>';
+                echo '<h6 class="card-title"> Reviewer2:</h6>';
+                echo '<p class="card-text">';
+                echo $NameR2.'<br>';
+                echo $DesignationR2.'<br>';
+                echo $DepartmentR2.',';
+                echo $InstitueR2.'<br>';
+                echo $AddressR2.', '.$CityR2.'<br>';
+                echo $StateR2.'-'.$PinCodeR2.'<br>';
+                echo 'email : '.$row['Reviewer_2_Id'];
+                echo '</p>';
                 echo '<form method="post"><textarea type="text" name="comment" placeholder="comment"></textarea>
                         <button class="btn btn-danger" type="submit" name="oraldisapprove" value="';
                         echo $oralidarray[$oralindex];
                         echo '">Disapprove</button>
                         <button class="btn btn-primary" name="oralapprove" value="';
                         echo $oralidarray[$oralindex];
-                        echo '">Approve</button></form></div>';
+                        echo '">Approve</button></form></div></div>';
                 $oralindex++;
             }
 
-
-
             ?>
-      </div>
 
       
     </main>

@@ -136,7 +136,7 @@
   
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
-      <a class="nav-link" href="#">Sign out</a>
+      <a class="nav-link" href="index.php">Sign out</a>
     </li>
   </ul>
 </nav>
@@ -147,39 +147,37 @@
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" href="#">
-              <span data-feather="home"></span>
-              Reviewed Application <span class="sr-only">(current)</span>
-            </a>
-          </li>
-         
-          <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link active" href="dashboardFaculty.php">
               <span data-feather="layers"></span>
-              Submit Abstract
-
+              Add Notice
             </a>
           </li>
-        </ul>
-
-       
-        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link" href="addReviewer.php">
+              <span data-feather="layers"></span>
+              Add Reviewer
+            </a>
+          </li>          
           <li class="nav-item">
             <a class="nav-link" href="facultyApproveReviewer.php">
               <span data-feather="file-text"></span>
-              Approve Reviewer
+              Approve Reviewers
             </a>
           </li>
-          
+          <li class="nav-item">
+            <a class="nav-link" href="reportFaculty.php">
+              <span data-feather="file-text"></span>
+              See all Reports
+            </a>
+          </li>          
         </ul>
       </div>
     </nav>
 
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+    <main id="main" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Reviewed Application</h1>        
+        <h1 class="h2">NOTICE</h1>        
       </div>
-      <h2>NOTICE</h2>
 
       <div>
         <form action="dashboardFaculty.php" method="POST">

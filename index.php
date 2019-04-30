@@ -1,3 +1,11 @@
+<?php
+error_reporting(E_ALL ^ E_NOTICE );
+error_reporting(E_ERROR | E_PARSE);
+//session based login system
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,8 +50,8 @@
 				<!-- Logo -->
 				<div class="navbar-brand">
 					<a class="logo" href="index.html">
-						<img class="logo-img" src="./img/logo-iitg.png" alt="logo">
-						<img class="logo-alt-img" src="./img/logo-iitg.png" alt="logo">
+						<img class="logo-img" src="./img/iitg_sab.png" alt="logo">
+						<img class="logo-alt-img" src="./img/iitg_sab.png" alt="logo">
 					</a>
 				</div>
 				<!-- /Logo -->
@@ -63,9 +71,9 @@
 					<li><a href="#about">About</a></li>
 					<li><a href="#schedule">Notices</a></li>
 					<li><a href="#contact">Contact</a></li>
-					<li><a href="abstractSubmission.php">Submit</a></li>
-					<li><a href="dashboard.html">Dashboard</a></li>
+					<li><a href="generalDisplay.php">Reviewed Abstracts</a></li>
 					<li><a href="login.php">Login</a></li>
+
 				</ul>
 			</nav>
 			<!-- /Navigation -->
@@ -77,7 +85,7 @@
 	<!-- Home -->
 	<div id="home">
 		<!-- background image -->
-		<div class="section-bg" style="background-image:url(./img/background01.jpg)" data-stellar-background-ratio="0.5"></div>
+		<div class="section-bg" style="background-image:url(./img/0001.jpg)" data-stellar-background-ratio="0.5"></div>
 		<!-- /background image -->
 
 		<!-- home wrapper -->
@@ -90,7 +98,7 @@
 					<div class="col-md-8 col-md-offset-2">
 						<div class="home-content">
 							<h1>Research Conclave</h1>
-							<h4 class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h4>
+							<h4 class="lead">An Amalgamation of Academia, Industry & Start-ups</h4>
 							<a href="registration.php" class="main-btn">Register</a>
 						</div>
 					</div>
@@ -119,54 +127,11 @@
 				<div class="col-md-8 col-md-offset-2 text-center">
 					<!-- about content -->
 					<div class="about-content">
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-							dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						<p>Research Conclave is organized under the banner of Students' Academic Board (SAB) of Indian Institute of Technology Guwahati (IITG). It is a staunch platform to nurture the young minds towards research, innovation and entrepreneurship, which intends to bring the integrity of the students towards both industries and academia to redress the academic research challenges, concerns of the entire student community and upcoming entrepreneurs around the globe. It is a forum to harness innovative mind to level-up the economic strata of current society from research to industries. The Research Conclave work as catalyst for building leaders through holistic, transformable and innovative ideas. It has started in 2015 with great rhythm and passion, and this year with the same enthusiasm we are conducting this event in a broader spectrum.</p>
 					</div>
 					<!-- /about content -->
 
-					<!-- Numbers -->
-					<div id="numbers">
-						<!-- row -->
-						<div class="row">
-							<!-- number -->
-							<div class="col-md-3 col-sm-3 col-xs-6">
-								<div class="number">
-									<h3><span class="counter" data-from="0" data-to="900" data-speed="1500">0</span>+</h3>
-									<p>Hours</p>
-								</div>
-							</div>
-							<!-- /number -->
-
-							<!-- number -->
-							<div class="col-md-3 col-sm-3 col-xs-6">
-								<div class="number">
-									<h3><span class="counter" data-from="0" data-to="750" data-speed="1500">0</span>+</h3>
-									<p>Venues</p>
-								</div>
-							</div>
-							<!-- /number -->
-
-							<!-- number -->
-							<div class="col-md-3 col-sm-3 col-xs-6">
-								<div class="number">
-									<h3><span class="counter" data-from="0" data-to="50" data-speed="1500">0</span>+</h3>
-									<p>Country</p>
-								</div>
-							</div>
-							<!-- /number -->
-
-							<!-- number -->
-							<div class="col-md-3 col-sm-3 col-xs-6">
-								<div class="number">
-									<h3><span class="counter" data-from="0" data-to="20" data-speed="1500">0</span>+</h3>
-									<p>Speakers</p>
-								</div>
-							</div>
-							<!-- /number -->
-						</div>
-						<!-- /row -->
-					</div>
-					<!-- /Numbers -->
+					
 				</div>
 			</div>
 			<!-- row -->
@@ -183,21 +148,26 @@
 			<div class="row">
 				<!-- galery owl -->
 				<div id="galery-owl" class="owl-carousel owl-theme">
+					
 					<!-- galery item -->
 					<div class="galery-item">
-						<img src="./img/galery01.jpg" alt="">
+						<img src="./img/0002.jpg" alt="">
 					</div>
 					<!-- /galery item -->
 
 					<!-- galery item -->
 					<div class="galery-item">
-						<img src="./img/galery02.jpg" alt="">
+						<img src="./img/0012.jpg" alt="">
 					</div>
 					<!-- /galery item -->
-
 					<!-- galery item -->
 					<div class="galery-item">
-						<img src="./img/galery03.jpg" alt="">
+						<img src="./img/0014.jpg" alt="">
+					</div>
+					<!-- /galery item -->
+					<!-- galery item -->
+					<div class="galery-item">
+						<img src="./img/0018.jpg" alt="">
 					</div>
 					<!-- /galery item -->
 
@@ -241,11 +211,9 @@
 								echo"<div class=event>
 									<div class=event-day>
 									<div>
-									<span class=year>"
-									.$row["PostingDate"].
-									"</span>
-								</div>
-							</div>";
+									<span class=year>".$row["PostingDate"]."</span>
+									</div>
+									</div>";
 							echo"<div class=event-content><h3 class=event-title>"
 								.$row["NoticeTitle"].
 								"</h3><p>"
@@ -253,38 +221,13 @@
 								"</p><p> By<a href='#'>"
 								.$row["PostedBy"].
 								"</a></p>
-							</div>";
+								</div>
+								</div>";
 						
 							}
 						?>
 					</div>
 
-						<!-- <div class="event">
-							<div class="event-day">
-								<div>
-									<span class="day">15</span>
-									<span class="year">Feb, 2018</span>
-								</div>
-							</div>
-							<div class="event-content">
-								<h3 class="event-title">His id altera fabellas facilisis. Has eros assueverit cu</h3>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								<p>By <a href="#">John Doe</a></p>
-							</div>
-						</div> -->
-						<!-- <div class="event">
-							<div class="event-day">
-								<div>
-									<span class="day">16</span>
-									<span class="year">Feb, 2018</span>
-								</div>
-							</div>
-							<div class="event-content">
-								<h3 class="event-title">His id altera fabellas facilisis. Has eros assueverit cu</h3>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								<p>By <a href="#">John Doe</a></p>
-							</div>
-						</div> -->
 					</div>
 				</div>
 			</div>
@@ -316,7 +259,7 @@
 				<div class="col-sm-4">
 					<div class="contact">
 						<h3>Address</h3>
-						<p>2635 Simons Hollow Road, NEW YORK</p>
+						<p>IIT Guwahati, Guwahati, Assam</p>
 					</div>
 				</div>
 				<!-- /contact -->
@@ -325,7 +268,12 @@
 				<div class="col-sm-4">
 					<div class="contact">
 						<h3>Phone</h3>
-						<p>570-751-2415</p>
+						<h4>Faculty Convener</h4>
+						<p>Dr. Akshai Kumar A.S.</p>
+						<p>+91-8133036890</p>
+						<h4>Student Convener</h4>
+						<p>Mr. Rupak Bhowmik</p>
+						<p>+91-9436747353</p>
 					</div>
 				</div>
 				<!-- /contact -->
@@ -334,7 +282,8 @@
 				<div class="col-sm-4">
 					<div class="contact">
 						<h3>Email</h3>
-						<a href="#">event@support.com</a>
+						<a href="#">research_conclave@iitg.ac.in</a>
+						<a href="#">researchconclave.iitg@gmail.com</a>
 					</div>
 				</div>
 				<!-- /contact -->
@@ -344,42 +293,11 @@
 		</div>
 		<!-- /container -->
 
-		<!-- Map -->
-		<div id="map"></div>
-		<!-- /Map -->
+		
 	</div>
 	<!-- /Contact -->
 
-	<!-- Footer -->
-	<footer id="footer">
-		<!-- container -->
-		<div class="container">
-			<!-- row -->
-			<div class="row">
 
-				
-
-				<!-- contact social -->
-				<div class="col-md-4 col-md-push-4">
-					<div class="contact-social">
-						<a href="#"><i class="fa fa-facebook"></i></a>
-						<a href="#"><i class="fa fa-twitter"></i></a>
-						<a href="#"><i class="fa fa-google-plus"></i></a>
-						<a href="#"><i class="fa fa-instagram"></i></a>
-						<a href="#"><i class="fa fa-pinterest"></i></a>
-						<a href="#"><i class="fa fa fa-linkedin"></i></a>
-					</div>
-				</div>
-				<!-- /contact social -->
-
-				
-
-			</div>
-			<!-- /row -->
-		</div>
-		<!-- /container -->
-	</footer>
-	<!-- /Footer -->
 
 	<!-- jQuery Plugins -->
 	<script src="js/jquery.min.js"></script>

@@ -78,6 +78,11 @@
 		    {
 		    	echo "<script type='text/javascript'>alert('Select Reviewer2');</script>";
 		    }
+		    else if($Reviewer1==$Reviewer2)
+		    {
+		    	echo "<script type='text/javascript'>alert('Choose different Reviewer1 and Reviewer2');</script>";
+
+		    }
 		    else
 		    {
 		    $conn = new mysqli("localhost","root","","research_conclave20");
@@ -99,6 +104,11 @@
 		    else if ($Reviewer2=="Choose...")
 		    {
 		    	echo "<script type='text/javascript'>alert('Select Reviewer2');</script>";
+		    }
+		    else if($Reviewer1==$Reviewer2)
+		    {
+		    	echo "<script type='text/javascript'>alert('Choose different Reviewer1 and Reviewer2');</script>";
+
 		    }
 		    else
 		    {

@@ -1,3 +1,37 @@
+<?php
+error_reporting(E_ALL ^ E_NOTICE );
+error_reporting(E_ERROR | E_PARSE);
+//session based login system
+session_start();
+
+echo $_SESSION["username"];
+
+
+$posterStartDate = date("Y-m-d");
+$posterEndDate = date("Y-m-d");
+$oralStartDate = date("Y-m-d");
+$oralEndDate = date("Y-m-d");
+
+$queryPosterDate = mysqli_query($conn,"SELECT * FROM Events WHERE Type = '0' ");
+
+while ($row = mysqli_fetch_array($queryPosterDate)) {
+  $posterStartDate = $row['StartDate'];
+  $posterEndDate = $row['EndDate'];
+}
+
+$queryOralDate = mysqli_query($conn,"SELECT * FROM Events WHERE Type = '1' ");
+
+while ($row = mysqli_fetch_array($queryOralDate)) {
+  $oralStartDate = $row['StartDate'];
+  $oralEndDate = $row['EndDate'];
+}
+
+echo $posterStartDate;
+echo $posterEndDate;
+echo $oralStartDate;
+echo $oralEndDate;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

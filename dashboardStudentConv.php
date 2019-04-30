@@ -1,6 +1,33 @@
 <?php
   session_start();
   $username = $_SESSION["username"];
+
+
+$posterStartDate = date("Y-m-d");
+$posterEndDate = date("Y-m-d");
+$oralStartDate = date("Y-m-d");
+$oralEndDate = date("Y-m-d");
+$conn=mysqli_connect("localhost","root","","research_conclave20");
+
+$queryPosterDate = mysqli_query($conn,"SELECT * FROM Events WHERE Type = '0' ");
+
+while ($row = mysqli_fetch_array($queryPosterDate)) {
+  $posterStartDate = $row['StartDate'];
+  $posterEndDate = $row['EndDate'];
+}
+
+$queryOralDate = mysqli_query($conn,"SELECT * FROM Events WHERE Type = '1' ");
+
+while ($row = mysqli_fetch_array($queryOralDate)) {
+  $oralStartDate = $row['StartDate'];
+  $oralEndDate = $row['EndDate'];
+}
+
+echo $posterStartDate;
+echo $posterEndDate;
+echo $oralStartDate;
+echo $oralEndDate;
+
 ?>
 
 
@@ -42,13 +69,14 @@
     </style>
     <!-- Custom styles for this template -->
     <link href="https://getbootstrap.com/docs/4.3/examples/dashboard/dashboard.css" rel="stylesheet">
-  </head>
-  <body>
+</head>
+<body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Research Conclave</a>
+
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
-      <a class="nav-link" href="index.html">Sign out</a>
+      <a class="nav-link" href="index.php">Sign out</a>
     </li>
   </ul>
 </nav>
@@ -59,26 +87,29 @@
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" href="viewAbstract.php" target="main">
+            <a class="nav-link active" href="dashboardStudentConv.php" target="main">
               <span data-feather="home"></span>
               Unassigned Abstract <span class="sr-only">(current)</span>
             </a>
           </li>
          
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="viewdisapprovedAbstract.php">
               <span data-feather="layers"></span>
-              Approved Abstract
+              Disapproved Abstract
             </a>
           </li>
-        </ul>
-
-       
-        <ul class="nav flex-column mb-2">
+        
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="addNoticeStu.php">
               <span data-feather="file-text"></span>
               Add Notice
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="reportStudent.php">
+              <span data-feather="file-text"></span>
+              See all Reports
             </a>
           </li>
           
@@ -86,11 +117,180 @@
       </div>
     </nav>
 
+    <?php
+        $conn=mysqli_connect("localhost","root","","research_conclave20");
+
+              if ($conn-> connect_error) {
+                die("connection failed".$conn->connect_error);
+                echo "connection failed!!";
+              }
+            $queryPoster = mysqli_query($conn,"select * from Poster where IsUnderReview = 0 ");
+            $queryOral = mysqli_query($conn,"select * from Oral where IsUnderReview = 0 ");
+            $queryReviewerPoster = mysqli_query($conn,"select * from Reviewer where EventType = 0 ");
+            $queryReviewerOral = mysqli_query($conn,"select * from Reviewer where EventType = 1 ");
+            $queryEndDatePoster = mysqli_query($conn,"select * from Events where Type = 0 ");
+            $queryEndDateOral = mysqli_query($conn,"select * from Events where Type = 1 ");
+
+            $posterEndDate = "";
+            $oralEndDate = "";
+
+            while($poster = mysqli_fetch_array($queryEndDatePoster))
+            {
+              $posterEndDate = $poster['EndDate'];
+            }
+
+            while($oral = mysqli_fetch_array($queryEndDateOral))
+            {
+              $oralEndDate = $oral['EndDate'];
+            }
+
+
+    if (isset($_POST['assign_buttonP']))
+    {
+        $Posterid =$_POST['assign_buttonP'];
+        $Reviewer1 = $_POST['Previewer1_select'];
+        $Reviewer2 = $_POST['Previewer2_select'];
+
+        if ($Reviewer1=="Choose...") {
+          echo "<script type='text/javascript'>alert('Select Reviewer1');</script>";
+        }
+        else if ($Reviewer2=="Choose...")
+        {
+          echo "<script type='text/javascript'>alert('Select Reviewer2');</script>";
+        }
+        else if($Reviewer1==$Reviewer2)
+        {
+          echo "<script type='text/javascript'>alert('Choose different Reviewer1 and Reviewer2');</script>";
+
+        }
+        else
+        {
+        $conn = new mysqli("localhost","root","","research_conclave20");
+        $posterdisapprovequery = mysqli_query($conn,"UPDATE Poster SET Reviewer_1_Id='$Reviewer1', Reviewer_2_Id='$Reviewer2', IsUnderReview=1 WHERE PosterId='$Posterid'");
+        echo "<script type='text/javascript'>alert('reviewer assigned for'".$Posterid.");</script>";
+        header("Location: ./dashboardStudentConv.php");
+        
+
+        }
+
+
+    }
+    if (isset($_POST['assign_buttonO']))
+    {
+        $Oralid =$_POST['assign_buttonO'];
+        $Reviewer1 = $_POST['Oreviewer1_select'];
+        $Reviewer2 = $_POST['Oreviewer2_select'];
+        if ($Reviewer1=="Choose...") {
+          echo "<script type='text/javascript'>alert('Select Reviewer1');</script>";
+        }
+        else if ($Reviewer2=="Choose...")
+        {
+          echo "<script type='text/javascript'>alert('Select Reviewer2');</script>";
+        }
+        else if($Reviewer1==$Reviewer2)
+        {
+          echo "<script type='text/javascript'>alert('Choose different Reviewer1 and Reviewer2');</script>";
+
+        }
+        else
+        {
+        $conn = new mysqli("localhost","root","","research_conclave20");
+        $posterdisapprovequery = mysqli_query($conn,"UPDATE Oral SET Reviewer_1_Id='$Reviewer1', Reviewer_2_Id='$Reviewer2', IsUnderReview=1 WHERE OralId='$Oralid'");
+        echo "<script type='text/javascript'>alert('reviewer assigned for'".$Oralid.");</script>";
+        header("Location: ./dashboardStudentConv.php");
+
+        }
+    }
+
+    ?>
+
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Reviewed Application</h1>        
+        <h1 class="h2">Unassigned Abstracts</h1>        
       </div>
+       <h2>Poster Presentation</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>Abstract No.</th>
+              <th>Title</th>
+              <th>Name of Participant</th>
+              <th>username</th>
+              <th>Date of Submission</th>
+              <th>Reviewer1</th>
+              <th>Reviewer2</th>
+              <th>Assign Reviewer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+              $selectOption = "";
+                while($reviewer = mysqli_fetch_array($queryReviewerPoster))
+                {
+                  $name = $reviewer['FirstName']." ".$reviewer['MiddleName']." ".$reviewer['LastName'];
+                  $selectOption = $selectOption.'<option value="'.$reviewer['EmailId'].'">'.$name.'</option>';
+                }
+               while ($row = mysqli_fetch_array($queryPoster)) {
+                  $name = $row['FirstName']." ".$row['MiddleName']." ".$row['LastName'];
+                   
+                   echo "<tr>";
+                   echo "<td>".$row['PosterId']."</td>";
+                   echo "<td>".$row['Title']."</td>";
+                   echo "<td>".$name."</td>";
+                   echo "<td>".$row['Email_Id']."</td>";
+                   echo "<td>".$row['DateOfSubmission']."</td>";
+                   echo "<td><form method=POST><select name= Previewer1_select><option>Choose...</option>".$selectOption."</select></td>";
+                   echo "<td><select name = Previewer2_select><option>Choose...</option>".$selectOption."</select></td>";
+                   echo '<td align=center><button  type=submit  name=assign_buttonP value="';echo $row['PosterId']; echo '">Assign</button></form></td>';
 
+                   echo "</tr>";
+               }
+            ?>
+          </tbody>
+        </table>
+      </div>
+      <h2>Oral Presentation</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>Abstract No.</th>
+              <th>Title</th>
+              <th>Name of Participant</th>
+              <th>username</th>
+              <th>Date of Submission</th>
+              <th>Reviewer1</th>
+              <th>Reviewer2</th>
+              <th>Assign Reviewer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+              $selectOption = "";
+                while($reviewer = mysqli_fetch_array($queryReviewerOral) )
+                {
+                  $name = $reviewer['FirstName']." ".$reviewer['MiddleName']." ".$reviewer['LastName'];
+                  $selectOption = $selectOption.'<option value="'.$reviewer['EmailId'].'">'.$name.'</option>';
+                }
+               while ($row = mysqli_fetch_array($queryOral)) {
+                  $name = $row['FirstName']." ".$row['MiddleName']." ".$row['LastName'];
+                   echo "<tr>";
+                   echo "<td>".$row['OralId']."</td>";
+                   echo "<td>".$row['Title']."</td>";
+                   echo "<td>".$name."</td>";
+                   echo "<td>".$row['Email_Id']."</td>";
+                   echo "<td>".$row['DateOfSubmission']."</td>";
+                   echo "<td><form method=POST><select name = Oreviewer1_select><option>Choose...</option>".$selectOption."</select></td>";
+                   echo "<td><select name = Oreviewer2_select><option>Choose...</option>".$selectOption."</select></td>";
+                    echo '<td align=center><button  type=submit  name=assign_buttonO value="';echo $row['OralId']; echo '">Assign</button></form></td>';
+                   echo "</tr>";
+               }
+            ?>
+              
+          </tbody>
+        </table>
+      </div>
 
       
     </main>

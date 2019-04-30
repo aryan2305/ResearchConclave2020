@@ -1,3 +1,18 @@
+<?php
+error_reporting(E_ALL ^ E_NOTICE );
+error_reporting(E_ERROR | E_PARSE);
+//session based login system
+session_start();
+
+echo $_SESSION["username"];
+
+$username = $_SESSION["username"];
+$name = "";
+
+
+
+
+?>
 
 <!doctype html>
 <html lang="en">
@@ -65,7 +80,7 @@
   <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Research Conclave</a>
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
-      <a class="nav-link" href="#">Sign out</a>
+      <a class="nav-link" href="index.php">Sign out</a>
     </li>
   </ul>
 </nav>
@@ -76,30 +91,20 @@
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" href="#">
+            <a class="nav-link active" href="dashboardParticipant.php">
               <span data-feather="home"></span>
-              Reviewed Application <span class="sr-only">(current)</span>
+              View Submitted Abstracts  <span class="sr-only">(current)</span>
             </a>
           </li>
          
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="abstractSubmission.php">
               <span data-feather="layers"></span>
               Submit Abstract
             </a>
           </li>
-        </ul>
-
-       
-        <ul class="nav flex-column mb-2">
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              View Submitted Abstracts
-            </a>
-          </li>
-          
-        </ul>
+        </ul>       
+        
       </div>
     </nav>
 
@@ -109,7 +114,7 @@
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Reviewed Application</h1>
+        <h1 class="h2">Submitted Abstracts</h1>
 
       </div>
       <?php
@@ -119,8 +124,8 @@
           echo "connection failed!!";
         }
         //todo emailid below is hardcoded
-        $query = mysqli_query($conn,"SELECT * FROM Oral WHERE Email_Id='aryanpranshu@gmail.com' ");
-        $query1 = mysqli_query($conn,"SELECT * FROM Poster WHERE Email_Id='aryanpranshu@gmail.com' ");
+        $query = mysqli_query($conn,"SELECT * FROM Oral WHERE Email_Id='$username' ");
+        $query1 = mysqli_query($conn,"SELECT * FROM Poster WHERE Email_Id= '$username' ");
       ?>  
       <div class="table-responsive">
       <table class="table table-striped table-sm">
@@ -129,17 +134,34 @@
               <th>Oral ID</th>
               <th>Title</th>
               <th>Date of Submission</th>
-              <th>Is Under Review</th>
+              <th>Status</th>
             </tr>
           </thead>
         <tbody>
             <?php
                while ($row = mysqli_fetch_array($query)) {
+                   $status="";
+
+                   if ($row['reviewdBy1']==1 && $row['reviewdBy2']==1) {
+                     $status = "Reviewed";
+                   }
+                   else if ($row["IsUnderReview"]==0) {
+                     $status = "Not Assigned";
+                   }
+                   else if ($row["IsUnderReview"]==1) {
+                     $status = "In Process";
+                   }
+                   else if ($row["IsUnderReview"]==2) {
+                     $status = "Assigned but not reviewed.";
+                   }
+                   else if ($row["IsUnderReview"]==3) {
+                     $status = "Not Assigned";
+                   }
                    echo "<tr>";
                    echo "<td>".$row["OralId"]."</td>";
                    echo "<td>".$row["Title"]."</td>";
                    echo "<td>".$row["DateOfSubmission"]."</td>";
-                   echo "<td>".$row["IsUnderReview"]."</td>";
+                   echo "<td>".$status."</td>";
                    echo "</tr>";
                }
 
@@ -149,21 +171,40 @@
          </div>
       <div class="table-responsive">
       <table class="table table-striped table-sm">
+        
         <thead>
             <tr>
               <th>Poster ID</th>
               <th>Title</th>
               <th>Date of Submission</th>
+              <th>Status</th>
             </tr>
           </thead>
         <tbody>
             <?php
+                
                while ($row = mysqli_fetch_array($query1)) {
+                    $status="";
+                   if ($row['reviewdBy1']==1 && $row['reviewdBy2']==1) {
+                     $status = "Reviewed";
+                   }
+                   else if ($row["IsUnderReview"]==0) {
+                     $status = "Not Assigned";
+                   }
+                   else if ($row["IsUnderReview"]==1) {
+                     $status = "In Process";
+                   }
+                   else if ($row["IsUnderReview"]==2) {
+                     $status = "Assigned but not reviewed.";
+                   }
+                   else if ($row["IsUnderReview"]==3) {
+                     $status = "Not Assigned";
+                   }
                    echo "<tr>";
                    echo "<td>".$row["PosterId"]."</td>";
                    echo "<td>".$row["Title"]."</td>";
                    echo "<td>".$row["DateOfSubmission"]."</td>";
-                   echo "<td>".$row["IsUnderReview"]."</td>";
+                   echo "<td>".$status."</td>";
                    echo "</tr>";
                }
 
