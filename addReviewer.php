@@ -26,6 +26,7 @@
     }
     $uType="2";
     $password=$_POST["password"];
+    $hashPassword = md5($password);
     $confirm_password = $_POST["confirm_password"];
     // $length=rand(5,10);
     // $char='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -81,7 +82,7 @@
       
     
     $query="INSERT INTO Reviewer (EventType,FirstName,MiddleName,LastName,EmailId,Designation,Department,Institute,Address,City,State,PinCode) VALUES ('$eventtype','$firstname','$middlename','$lastname','$email','$designation','$department','$institute','$address','$city','$state','$pincode')";
-    $query1="INSERT INTO UserLoginDetails (userEmail_Id,password,userType) VALUES ('$email','$password','$uType')";
+    $query1="INSERT INTO UserLoginDetails (userEmail_Id,password,userType) VALUES ('$email','$hashPassword','$uType')";
 
 
 
@@ -121,7 +122,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     
     <style>
-    input[type=text], select ,input[type=email],input[type=number]{
+    input[type=text], select ,input[type=email],input[type=number],input[id=password],input[id=confirm_password]{
       width: 100%;
       padding: 12px 20px;
       margin: 8px 0;
@@ -232,6 +233,12 @@
               <span data-feather="file-text"></span>
               See all Reports
             </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="facultyChangeDates.php">
+              <span data-feather="file-text"></span>
+                Change Date
+            </a>
           </li>           
         </ul>
       </div>
@@ -244,21 +251,37 @@
       <div>
         <form action="addReviewer.php" method="POST">
           <label for="fname">First Name</label>
-          <input type="text" id="fname" name="fName" placeholder="First Name..">
+          <input type="text" id="fname" name="fName" placeholder="First Name.." required>
           <label for="mname">Middle Name</label>
           <input type="text" id="mname" name="mName" placeholder="Middle Name..">
           <label for="lname">Last Name</label>
-          <input type="text" id="lname" name="lName" placeholder="Last Name..">
+          <input type="text" id="lname" name="lName" placeholder="Last Name.." required>
           <label for="email">Email Id</label>
-          <input type="email" id="email" name="eMail" placeholder="eMail..">
+          <input type="email" id="email" name="eMail" placeholder="eMail.." required>
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="">
+          <input type="password" id="password" name="password" placeholder="" required onkeyup='check();'>
           <label for="confirm_password">Confirm Password</label>
-          <input type="password" id="confirm_password" name="confirm_password" placeholder="">
+          <input type="password" id="confirm_password" name="confirm_password" placeholder="" required onkeyup='check();'>
+          <span id='message'></span>
+          <script type="text/javascript">
+              var check = function() {
+                    if (document.getElementById('password').value ==
+                        document.getElementById('confirm_password').value) {
+                        document.getElementById('message').style.color = 'green';
+                        document.getElementById('message').innerHTML = 'matching';
+                        document.getElementById('submit').disabled = false;
+                    } else {
+                        document.getElementById('message').style.color = 'red';
+                        document.getElementById('message').innerHTML = 'not matching';
+                        document.getElementById('submit').disabled = true;
+                    }
+                }
+                              </script>
+                              <br>
           <label for="designation">Designation</label>
-          <input type="text" id="designation" name="Designation" placeholder="Designation..">
+          <input type="text" id="designation" name="Designation" placeholder="Designation.." required>
           <label for="department">Department</label>
-          <select id="department" name="Department">
+          <select id="department" name="Department" required>
             <option value="Computer Science">Computer Science</option>
             <option value="Mathematics and Computing">Mathematics and Computing</option>
             <option value="Electrical">Electrical</option>
@@ -269,21 +292,21 @@
             <option value="other">Other</option>
           </select>
           <label for="institute">Institute</label>
-          <input type="text" id="institute" name="Institute" placeholder="Institute..">
+          <input type="text" id="institute" name="Institute" placeholder="Institute.." required>
           <label for="address">Address</label>
-          <input type="text" id="address" name="Address" placeholder="Address..">
+          <input type="text" id="address" name="Address" placeholder="Address.." required>
           <label for="city">City</label>
-          <input type="text" id="city" name="City" placeholder="City..">
+          <input type="text" id="city" name="City" placeholder="City.." required>
           <label for="state">State</label>
-          <input type="text" id="state" name="State" placeholder="State..">
+          <input type="text" id="state" name="State" placeholder="State.." required>
           <label for="pincode">Pin Code</label>
-          <input type="number" id="pincode" name="pinCode" placeholder="Pin Code ..">
+          <input type="number" id="pincode" name="pinCode" placeholder="Pin Code .." required>
           <label for="eType">Event Type</label>
-          <select id="eType" name="eventType">
+          <select id="eType" name="eventType" required>
             <option value="oral">Oral</option>
             <option value="poster">Poster</option>
           </select>
-          <input type="submit" value="Submit">
+          <input type="submit" id="submit" value="Submit">
         </form>
       </div>
 

@@ -171,7 +171,16 @@ echo $oralEndDate;
 
       </div>
   <?php
-  if($_SERVER["REQUEST_METHOD"]=="POST"){
+  if($_SERVER["REQUEST_METHOD"]=="POST"  && $_FILES['inputFile']['size'] > 0){
+    $host="localhost";
+    $db="research_conclave20";
+    $dsn= "mysql:host=$host;dbname=$db";
+    $conn=new mysqli($host,"root","",$db);
+    if($conn->connect_error){
+      die("Connection failed: " . $conn->connect_error);
+      echo "failed";
+    }
+
     $Description = $_POST["description"];
     $AbstractTitle = $_POST["abstract_title"];
     $EventType = $_POST['event_type'];
@@ -179,12 +188,23 @@ echo $oralEndDate;
     $todaysDate = date("Y-m-d");
     $IsUnderReview = 0;
     $name       = $_FILES['inputFile']['name']; 
-    $file = addslashes($_FILES['inputFile']['tmp_name']);
-    $file = file_get_contents($file);
-    $file = base64_encode($file);
-    $data = $file; 
+    $fileName = $_FILES['inputFile']['name'];
+    $tmpName = $_FILES['inputFile']['tmp_name'];
+    $fileSize = $_FILES['inputFile']['size'];
+    $fileType = $_FILES['inputFile']['type'];
 
+    $fileType = (get_magic_quotes_gpc() == 0 ? mysqli_real_escape_string($conn,
+                            $_FILES['inputFile']['type']) : mysqli_real_escape_string($conn,
+                            stripslashes($_FILES['inputFile'])));
+    $fp = fopen($tmpName, 'r');
+    $content = fread($fp, filesize($tmpName));
+    $content = addslashes($content);
+    fclose($fp);
+    if (!get_magic_quotes_gpc()) {
+        $fileName = addslashes($fileName);
+    }
 
+   
 
     if ($EventType == "Poster Presentation" ) {
       $tableName = "Poster";
@@ -206,21 +226,15 @@ echo $oralEndDate;
       }
     }
 
-  $host="localhost";
-  $db="research_conclave20";
-  $dsn= "mysql:host=$host;dbname=$db";
-  $conn=new mysqli($host,"root","",$db);
-  if($conn->connect_error){
-    die("Connection failed: " . $conn->connect_error);
-    echo "failed";
-  }
+  
 
   if($flag == "valid")
   {
     
     if(isset($name)){
         if(!empty($name)){      
-            $query="INSERT INTO $tableName (Title, Description,Email_Id,FirstName,MiddleName,LastName, Attachment,DateOfSubmission,IsUnderReview) VALUES ('$AbstractTitle','$Description','$username','$FirstName','$MiddleName','$LastName','$data','$todaysDate','$IsUnderReview')";
+            $query="INSERT INTO $tableName (Title, Description,Email_Id,FirstName,MiddleName,LastName,fileName,fileType,fileSize, Attachment,DateOfSubmission,IsUnderReview) VALUES ('$AbstractTitle','$Description','$username','$FirstName','$MiddleName','$LastName','$fileName', '$fileType', '$fileSize', '$content','$todaysDate','$IsUnderReview')";
+            
         try{
 
           if ($conn->query($query) === TRUE) {
@@ -240,7 +254,7 @@ echo $oralEndDate;
             $conn->query($query2);
     
           } else {
-            echo "<script type='text/javascript'>alert('Failed!!!');</script>";    
+            echo "<script type='text/javascript'>alert('Failed!');</script>";    
           }
           }
 

@@ -127,7 +127,7 @@ if (isset($_POST['posterdisapprove']))
     $comment = $_POST['comment'];
     $posterid = $_POST['posterdisapprove'];
     $conn = new mysqli("localhost","root","","research_conclave20");
-    $posterapprovequery = mysqli_query($conn,"UPDATE Poster SET IsUnderReview=3, comment='$comment' WHERE PosterId='$posterid'");
+    $posterdisapprovequery = mysqli_query($conn,"UPDATE Poster SET IsUnderReview=3, comment='$comment' WHERE PosterId='$posterid'");
     echo "<script type='text/javascript'>alert('reviewer disapproved for'".$posterid.");</script>";
 
 }
@@ -136,7 +136,7 @@ if (isset($_POST['oralapprove']))
     $comment = $_POST['comment'];
     $oralid = $_POST['oralapprove'];
     $conn = new mysqli("localhost","root","","research_conclave20");
-    $posterapprovequery = mysqli_query($conn,"UPDATE Oral SET IsUnderReview=2, comment='$comment' WHERE OralId='$oralid'");
+    $oralapprovequery = mysqli_query($conn,"UPDATE Oral SET IsUnderReview=2, comment='$comment' WHERE OralId='$oralid'");
     echo "<script type='text/javascript'>alert('reviewer approved for'".$oralid.");</script>";
 }
 if (isset($_POST['oraldisapprove']))
@@ -144,7 +144,7 @@ if (isset($_POST['oraldisapprove']))
     $comment = $_POST['comment'];
     $oralid = $_POST['oraldisapprove'];
     $conn = new mysqli("localhost","root","","research_conclave20");
-    $posterapprovequery = mysqli_query($conn,"UPDATE Oral SET IsUnderReview=3, comment='$comment' WHERE OralId='$oralid'");
+    $oraldisapprovequery = mysqli_query($conn,"UPDATE Oral SET IsUnderReview=3, comment='$comment' WHERE OralId='$oralid'");
     echo "<script type='text/javascript'>alert('reviewer disapproved for'".$oralid.");</script>";
 }
 ?>
@@ -186,7 +186,12 @@ if (isset($_POST['oraldisapprove']))
               See all Reports
             </a>
           </li>
-          
+          <li class="nav-item">
+            <a class="nav-link" href="facultyChangeDates.php">
+              <span data-feather="file-text"></span>
+                Change Date
+            </a>
+          </li>
         </ul>
       </div>
     </nav>

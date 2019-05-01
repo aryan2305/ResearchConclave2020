@@ -148,6 +148,12 @@ session_start();
               <span data-feather="file-text"></span>
               See all Reports
             </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="facultyChangeDates.php">
+              <span data-feather="file-text"></span>
+                Change Date
+            </a>
           </li>          
         </ul>
       </div>

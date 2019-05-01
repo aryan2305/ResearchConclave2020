@@ -18,20 +18,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     //  echo $username."  ".$pwd;
     //  echo $conn;
+
     $query = "SELECT * FROM UserLoginDetails WHERE userEmail_id='$username'";
 
     try {
 
         $result = $conn->query($query);
         $numofrows = mysqli_num_rows($result);
+
+        echo "\n";
         
         if ($numofrows != 0 ) {
           $row = mysqli_fetch_assoc($result);
           $id = $row['Id'];
           $password = $row['password'];
           $userType = $row['userType'];
-          if($password == $pwd)
+          if($password == md5($pwd))
           {
+
             switch ($userType) {
               case 0:
                   header("Location: ./dashboardFaculty.php");
@@ -61,11 +65,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
           }
           else {
-            echo "Wrong credentials\n";
+            echo "<script type='text/javascript'>alert('Wrong credentials');</script>";
           }
 
         } else {
-            echo "Wrong credentials\n";
+            echo "<script type='text/javascript'>alert('Wrong credentials');</script>";
         }
 
     } catch (Exception $e) {

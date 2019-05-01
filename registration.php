@@ -12,6 +12,9 @@
     $state=$_POST["sTate"];
     $pincode=$_POST["pIncode"];
     $password=$_POST["pAssword"];
+
+    $hashPassword = md5($password);
+
     $Confirmpassword=$_POST["confirm_password"];
     $programme=$_POST["pRogramme"];
     $host="localhost";
@@ -26,7 +29,7 @@
     if ($Confirmpassword == $password) {
     	
     $query="INSERT INTO ParticipantDetail (FirstName,MiddleName,LastName,userEmailId,Institue,Address,City,State,PinCode,Programme,Branch,GraduatingYear) VALUES ('$firstName','$middleName','$lastName','$email','$institute','$address','$city','$state','$pincode','$programme','$branch','$graduatingYear');";
-    $query2="INSERT INTO UserLoginDetails (userEmail_Id,password,userType) VALUES ('$email','$password','3');";
+    $query2="INSERT INTO UserLoginDetails (userEmail_Id,password,userType) VALUES ('$email','$hashPassword','3');";
 
 
     try{
@@ -90,7 +93,7 @@
 	                            <div class="col-2">
 	                                <div class="input-group">
 	                                    <label class="label">first name</label>
-	                                    <input class="input--style-4" type="text" name="first_name">
+	                                    <input class="input--style-4" type="text" name="first_name"  required>
 	                                </div>
 	                            </div>
 	                            <div class="col-2">
@@ -103,7 +106,7 @@
 	                            <div class="col-2">
 	                                <div class="input-group">
 	                                    <label class="label">last name</label>
-	                                    <input class="input--style-4" type="text" name="last_name">
+	                                    <input class="input--style-4" type="text" name="last_name"  required>
 	                                </div>
 	                            </div>
 	                        </div>
@@ -111,13 +114,13 @@
 	                            <div class="col-2">
 	                                <div class="input-group">
 	                                    <label class="label">Email</label>
-	                                    <input class="input--style-4" type="email" name="eMail">
+	                                    <input class="input--style-4" type="email" name="eMail"  required>
 	                                </div>
 	                            </div>
 	                            <div class="col-2">
 	                                <div class="input-group">
 	                                    <label class="label">Branch</label>
-	                                    <input class="input--style-4" type="text" name="bRanch">
+	                                    <input class="input--style-4" type="text" name="bRanch"  required>
 	                                </div>
 	                            </div>
 	                            <div class="col-2">
@@ -125,7 +128,7 @@
 	                                    <label class="label">
 	                                        Graduating Year
 	                                    </label>
-	                                    <input class="input--style-4" type="text" name="graduting_year">
+	                                    <input class="input--style-4" type="text" name="graduting_year"  required>
 	                                </div>
 	                            </div>
 	                            <div class="col-2">
@@ -133,50 +136,65 @@
 	                                    <label class="label">
 	                                    Institute
 	                                    </label>
-	                                    <input class="input--style-4" type="text" name="iNstitute">
+	                                    <input class="input--style-4" type="text" name="iNstitute"  required>
 	                                </div>
 	                            </div>
 	                            <div class="col-2">
 	                                <div class="input-group">
 	                                    <label class="label">Address</label>
-	                                    <input class="input--style-4" type="text" name="aDdress">
+	                                    <input class="input--style-4" type="text" name="aDdress"  required>
 	                                </div>
 	                            </div>
 	                            <div class="col-2">
 	                                <div class="input-group">
 	                                    <label class="label">City</label>
-	                                    <input class="input--style-4" type="text" name="cIty">
+	                                    <input class="input--style-4" type="text" name="cIty"  required>
 	                                </div>
 	                            </div>
 	                            <div class="col-2">
 	                                <div class="input-group">
 	                                    <label class="label">State</label>
-	                                    <input class="input--style-4" type="text" name="sTate">
+	                                    <input class="input--style-4" type="text" name="sTate"  required>
 	                                </div>
 	                            </div>
 	                            <div class="col-2">
 	                                <div class="input-group">
 	                                    <label class="label">Pincode</label>
-	                                    <input class="input--style-4" type="text" name="pIncode">
+	                                    <input class="input--style-4" type="text" name="pIncode"  required>
 	                                </div>
 	                            </div>
 	                            <div class="col-2">
 	                                <div class="input-group">
 	                                    <label class="label">Password</label>
-	                                    <input class="input--style-4" type="password" name="pAssword">
+	                                    <input class="input--style-4" type="password" name="pAssword" id="pass" onkeyup='check();' required>
 	                                </div>
 	                            </div>
 	                            <div class="col-2">
 	                                <div class="input-group">
 	                                    <label class="label">Confirm Password</label>
-	                                    <input class="input--style-4" type="password" name="confirm_password">
-	                                </div>
+	                                    <input class="input--style-4" type="password" name="confirm_password" id="cpass" onkeyup='check();' required>
+	                                    <span id='message'></span>
+	                              	</div>
 	                            </div>
+	                            <script type="text/javascript">
+	                            	var check = function() {
+									      if (document.getElementById('pass').value ==
+									          document.getElementById('cpass').value) {
+									          document.getElementById('message').style.color = 'green';
+									          document.getElementById('message').innerHTML = 'matching';
+									          document.getElementById('submit').disabled = false;
+									      } else {
+									      		document.getElementById('message').style.color = 'red';
+									          document.getElementById('message').innerHTML = 'not matching';
+									          document.getElementById('submit').disabled = true;
+									      }
+  									}
+	                            </script>
 	                        </div>
 	                        <div class="input-group">
 	                            <label class="label">Programme</label>
 	                            <div class="rs-select2 js-select-simple select--no-search">
-	                                <select name="pRogramme">
+	                                <select name="pRogramme"  required>
 	                                    <option disabled="disabled" selected="selected">Choose option</option>
 	                                    <option>BTech</option>
 	                                    <option>MTech</option>
@@ -187,7 +205,7 @@
 	                        </div>
 	               
 	                        <div class="p-t-15">
-	                            <button class="btn btn--radius-2 btn--blue" type="submit">Submit</button>
+	                            <button class="btn btn--radius-2 btn--blue" id="submit" type="submit">Submit</button>
 	                        </div>
 	                    </form>
 	                </div>

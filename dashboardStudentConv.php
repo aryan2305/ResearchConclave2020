@@ -231,6 +231,9 @@ echo $oralEndDate;
                   $name = $reviewer['FirstName']." ".$reviewer['MiddleName']." ".$reviewer['LastName'];
                   $selectOption = $selectOption.'<option value="'.$reviewer['EmailId'].'">'.$name.'</option>';
                 }
+                if (date("Y-m-d") > $posterEndDate) {
+                  
+                
                while ($row = mysqli_fetch_array($queryPoster)) {
                   $name = $row['FirstName']." ".$row['MiddleName']." ".$row['LastName'];
                    
@@ -246,6 +249,7 @@ echo $oralEndDate;
 
                    echo "</tr>";
                }
+             }
             ?>
           </tbody>
         </table>
@@ -273,6 +277,9 @@ echo $oralEndDate;
                   $name = $reviewer['FirstName']." ".$reviewer['MiddleName']." ".$reviewer['LastName'];
                   $selectOption = $selectOption.'<option value="'.$reviewer['EmailId'].'">'.$name.'</option>';
                 }
+                if (date("Y-m-d")>$oralEndDate) {
+                  # code...
+                
                while ($row = mysqli_fetch_array($queryOral)) {
                   $name = $row['FirstName']." ".$row['MiddleName']." ".$row['LastName'];
                    echo "<tr>";
@@ -286,6 +293,7 @@ echo $oralEndDate;
                     echo '<td align=center><button  type=submit  name=assign_buttonO value="';echo $row['OralId']; echo '">Assign</button></form></td>';
                    echo "</tr>";
                }
+             }
             ?>
               
           </tbody>

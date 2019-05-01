@@ -177,6 +177,33 @@ if (isset($_POST['submitGrade']))
 
 }
 
+if (isset($_GET['downloadFile']))
+{
+
+   $host="localhost";
+   $db="research_conclave20";
+   $dsn= "mysql:host=$host;dbname=$db";
+   $conn=new mysqli();
+   $conn=new mysqli($host,"root","",$db);
+   if($conn->connect_error){
+     die("Connection failed: " . $conn->connect_error);
+     echo "failed";
+   }
+
+
+     $id = $Abstractid;
+     // $query = "SELECT name, type, size, content FROM upload WHERE id = '$id'";
+     $query = "SELECT fileName, fileType, fileSize, Attachment FROM $eventName WHERE $eventId = '$id'";
+     $result = mysqli_query($conn,$query) or die('Error, query failed');
+     list($fileName, $fileType, $fileSize, $Attachment) = mysqli_fetch_array($result);
+     header("Content-length: $fileSize");
+     header("Content-type: $fileType");
+     header("Content-Disposition: attachment; filename=$fileName");
+     ob_clean();
+     flush();
+     echo $Attachment;
+   }
+
 ?>
 
 <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -266,7 +293,7 @@ if (isset($_POST['submitGrade']))
                 echo $Statep.'-'.$PinCodep.'<br>';
                 echo 'Graduating Year:'.$GraduatingYearp;
                 echo '<br>email : '.$row['Email_Id'];
-                echo '</p><form method="post"><button class="btn btn-danger" type="submit" name="downloadFile" value="';echo $Abstractid; echo '">Download Abstract</button>
+                echo '</p><form method=get><button class="btn btn-danger" type="submit" name="downloadFile" value="';echo $Abstractid; echo '">Download Abstract</button>
                         </form>';
                 echo '</p><form method="post"><textarea type="text" name="review" placeholder="Review"></textarea>
                         <br><label for="grade">Grade(Out of 10)</label>

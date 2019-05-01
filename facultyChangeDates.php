@@ -1,40 +1,80 @@
 <?php
+error_reporting(E_ALL ^ E_NOTICE );
+error_reporting(E_ERROR | E_PARSE);
+//session based login system
+session_start();
+
+echo $_SESSION["username"];
+$host="localhost";
+$db="research_conclave20";
+$dsn= "mysql:host=$host;dbname=$db";
+$conn=new mysqli($host,"root","",$db);
+
+$posterStartDate = date("Y-m-d");
+$posterEndDate = date("Y-m-d");
+$oralStartDate = date("Y-m-d");
+$oralEndDate = date("Y-m-d");
+
+$queryPosterDate = mysqli_query($conn,"SELECT * FROM Events WHERE Type = '0' ");
+
+while ($row = mysqli_fetch_array($queryPosterDate)) {
+  $posterStartDate = $row['StartDate'];
+  $posterEndDate = $row['EndDate'];
+}
+
+$queryOralDate = mysqli_query($conn,"SELECT * FROM Events WHERE Type = '1' ");
+
+while ($row = mysqli_fetch_array($queryOralDate)) {
+  $oralStartDate = $row['StartDate'];
+  $oralEndDate = $row['EndDate'];
+}
+
+echo $posterStartDate;
+echo $posterEndDate;
+echo $oralStartDate;
+echo $oralEndDate;
+
+
+  
   if($_SERVER["REQUEST_METHOD"]=="POST"){
-    $noticetitle=$_POST["noticeTitle"]; 
-    $Description=$_POST["description"];
-    $postingdate=date("Y/m/d"); 
-    $event=$_POST["eventType"];
-    $eventtype=0;
-    $postedBy = "FacultyConvener";
-    if($event=="oral")
-    {
-      $eventtype=1;
-    }
-    else
-    {
-      $eventtype=0;
-    }
-    $host="localhost";
-    $db="research_conclave20";
-    $dsn= "mysql:host=$host;dbname=$db";
-    $conn=new mysqli($host,"root","",$db);
+    // $noticetitle=$_POST["noticeTitle"]; 
+    // $Description=$_POST["description"];
+    // $postingdate=date("Y/m/d"); 
+    // $event=$_POST["eventType"];
+    // $eventtype=0;
+    // $postedBy = "FacultyConvener";
+    // if($event=="oral")
+    // {
+    //   $eventtype=1;
+    // }
+    // else
+    // {
+    //   $eventtype=0;
+    // }
+    $startDo=$_POST["sDateOral"];
+    $endDo=$_POST["eDateOral"];
+    $startDp=$_POST["sDatePoster"];
+    $endDp=$_POST["eDatePoster"];
+    
     if($conn->connect_error){
       die("Connection failed: " . $conn->connect_error);
       echo "failed";
     }
   //  echo $username."  ".$pwd;
   //  echo $conn;
-    $query="INSERT INTO Notice (EventType,NoticeTitle,Description,PostingDate,PostedBy) VALUES ('$eventtype','$noticetitle','$Description','$postingdate','$postedBy')";
-
+    $query="UPDATE Events SET StartDate='$startDo' ,EndDate='$endDo' WHERE Type=1";
+    $query1="UPDATE Events SET StartDate='$startDp' ,EndDate='$endDp' WHERE Type=0";
 
 
     try{
-
+      $result=$conn->query($query1);
       $result=$conn->query($query);
     }
     catch(Exception $e){
       echo "error is".$e;
     }
+    header("Location: ./facultyChangeDates.php");
+
 
     $conn->close();
 
@@ -147,7 +187,7 @@
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" href="dashboardFaculty.php">
+            <a class="nav-link" href="dashboardFaculty.php">
               <span data-feather="layers"></span>
               Add Notice
             </a>
@@ -171,32 +211,44 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="facultyChangeDates.php">
+            <a class="nav-link active" href="facultyChangeDates.php">
               <span data-feather="file-text"></span>
                 Change Date
             </a>
-          </li>          
+          </li>           
         </ul>
       </div>
     </nav>
 
     <main id="main" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">NOTICE</h1>        
+        <h1 class="h2">Change Dates</h1>        
       </div>
 
       <div>
-        <form action="dashboardFaculty.php" method="POST">
-          <label for="titleText">Notice title</label>
-          <input type="text" id="titleText" name="noticeTitle" placeholder="title..">
-
-          <label for="desText">Description</label>
-          <input type="text" id="desText" name="description" placeholder="description..">
-          <label for="eType">Event Type</label>
-          <select id="eType" name="eventType">
-            <option value="oral">Oral</option>
-            <option value="poster">Poster</option>
-          </select>
+        <form action="facultyChangeDates.php" method="POST">
+          <h2>Oral:</h2>
+          <br>
+          <br>
+          <?php 
+            echo '<label for="sDateO">Start Date: '.$oralStartDate.'</label>';
+          ?>
+          <input type="date" id="sDateO" name="sDateOral" placeholder="" required>
+          <?php 
+            echo '<label for="eDateO">End Date: '.$oralEndDate.'</label>';
+          ?>
+          <input type="date" id="eDateO" name="eDateOral" placeholder="End Date.." required>
+          <h2>Poster:</h2>
+          <br>
+          <br>
+          <?php 
+            echo '<label for="sDateP">Start Date: '.$posterStartDate.'</label>';
+          ?>
+          <input type="date" id="sDateP" name="sDatePoster" placeholder="Start Date.." required>
+          <?php 
+            echo '<label for="eDateP">End Date: '.$posterEndDate.'</label>';
+          ?>
+          <input type="date" id="eDateP" name="eDatePoster" placeholder="End Date.." required>
           <input type="submit" value="Submit">
         </form>
       </div>
